@@ -1,0 +1,28 @@
+# Ignore environment variables
+.env
+
+# Ignore Firebase keys JSON
+app/firebase-keys.json
+
+# Ignore Python virtual environment
+venv/
+*.pyc
+__pycache__/
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+
+# Ignore cache and build files
+*.cache
+*.bak
+*.swp
+*.tmp
+*.log
+__pycache__/
+*.egg-info/
+build/
+dist/
