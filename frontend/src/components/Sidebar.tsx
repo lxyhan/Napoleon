@@ -28,8 +28,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 z-50 w-20 overflow-y-auto pb-4" style={{ backgroundColor: '#F2F2f2' }}
-      >
+      <div className="fixed inset-y-0 left-0 z-50 w-20 overflow-y-auto bg-gray-900 pb-4">
         {/* Sidebar header (Logo) */}
 
         {/* Navigation */}
@@ -41,7 +40,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   href={item.href}
                   className={classNames(
                     pathname === item.href
-                      ? 'bg-white-800 text-black'
+                      ? 'bg-gray-800 text-white'
                       : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                     'group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold'
                   )}
@@ -56,7 +55,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 ml-20 bg-gray-100">
+      <main className="flex-1 ml-20">
         {children}
       </main>
     </div>
