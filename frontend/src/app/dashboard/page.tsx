@@ -5,33 +5,38 @@ import TodoTable from "@/components/TodoTable";
 import Heading from "@/components/Heading";
 import TaskForm from "@/components/TaskForm";
 import Divider from "@/components/Divider";
+import { Table } from "lucide-react";
+import { ClipLoader } from "react-spinners"; // Spinner component
 
 type Todo = {
-    id: string;
-    name: string;
-    dueDate: string;
-    description: string;
-    estimatedTime: string;
-    priority: string;
-    goals: string[];
-    taskType: string;
-    notes: string;
-  };
-  
+  id: string;
+  name: string;
+  dueDate: string;
+  description: string;
+  estimatedTime: string;
+  priority: string;
+  goals: string[];
+  taskType: string;
+  notes: string;
+};
 
 export default function Dashboard() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
 
   // Fetch todos from the backend
   useEffect(() => {
     const fetchTodos = async () => {
       try {
+        setIsLoading(true); // Set loading state to true
         const response = await fetch("http://localhost:3400/api/todos/");
         const data = await response.json();
         setTodos(data);
       } catch (error) {
         console.error("Failed to fetch todos:", error);
+      } finally {
+        setIsLoading(false); // Set loading state to false
       }
     };
     fetchTodos();
@@ -77,7 +82,16 @@ export default function Dashboard() {
           <Heading onOpenModal={() => setIsModalOpen(true)} />
         </div>
         <Divider title="All Tasks"></Divider>
-        <TodoTable todos={todos} onDelete={handleDelete} />
+
+        {isLoading ? (
+          // Show spinner while loading
+          <div className="flex justify-center items-center py-8">
+            <ClipLoader size={50} color="#4A90E2" loading={isLoading} />
+          </div>
+        ) : (
+          // Show TodoTable once loaded
+          <TodoTable todos={todos} onDelete={handleDelete} />
+        )}
       </div>
 
       {/* Right Column: Single Div */}
@@ -98,4 +112,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

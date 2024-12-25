@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import todos
+from app.routes.profile import router as profile_router  # Adjust the import path if necessary
 
 app = FastAPI()
 
@@ -10,6 +11,7 @@ async def root():
 
 # Register the todos routes
 app.include_router(todos.router, prefix="/api/todos", tags=["todos"])
+app.include_router(profile_router, prefix="/profile", tags=["Profile"])
 
 app.add_middleware(
     CORSMiddleware,

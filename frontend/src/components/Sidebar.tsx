@@ -10,11 +10,13 @@ import {
   HomeIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
+import Home from '@/app/page'
 
 const navigation = [
+  { name: 'Today', href: '/today', icon: HomeIcon },
+
   { name: 'Dashboard', href: '/dashboard', icon: CalendarIcon },
-//   { name: 'Team', href: '/team', icon: UsersIcon },
-//   { name: 'Projects', href: '/projects', icon: FolderIcon },
+  { name: 'Profile', href: '/profile', icon: UsersIcon },
 //   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
 ]
 
