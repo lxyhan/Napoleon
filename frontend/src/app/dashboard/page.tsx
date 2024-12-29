@@ -73,13 +73,36 @@ export default function Dashboard() {
     }
   };
 
+// Handle rescheduling tasks
+  const handleReschedule = async () => {
+    try {
+      // Call the backend reschedule endpoint
+      const response = await fetch(`http://localhost:3400/api/todos/reschedule`, {
+        method: "POST", // Use POST for rescheduling
+        headers: {
+          "Content-Type": "application/json", // Set appropriate headers
+        },
+      });
+
+      // Handle the response
+      if (!response.ok) {
+        throw new Error(`Failed to reschedule tasks. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Tasks successfully rescheduled:", data.message);
+    } catch (error) {
+      console.error("Error rescheduling tasks:", error);
+    }
+  };
+
   return (
     <div className="p-10 grid grid-cols-1 md:grid-cols-1 gap-4">
       {/* Left Column: Two Stacked Divs */}
       <div className="flex flex-col space-y-4">
         <div className="pb-2">
           {/* Pass a prop to control the modal */}
-          <Heading onOpenModal={() => setIsModalOpen(true)} />
+          <Heading onScheduleAll = {handleReschedule} onOpenModal={() => setIsModalOpen(true)} />
         </div>
         <Divider title="All Tasks"></Divider>
 
@@ -94,14 +117,11 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Right Column: Single Div */}
-      <div></div>
-
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white w-full max-w-xl rounded-lg shadow-lg p-6">
-            <h2 className="text-lg font-semibold mb-4">New SMART Task</h2>
+            <h2 className="text-lg font-semibold mb-4">New Task</h2>
             <TaskForm
               onSubmit={handleFormSubmit}
               onCancel={() => setIsModalOpen(false)}

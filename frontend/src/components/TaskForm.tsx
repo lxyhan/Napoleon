@@ -30,6 +30,8 @@ export default function TaskForm({
     notes: "",
   });
 
+  const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -47,9 +49,57 @@ export default function TaskForm({
     setFormData((prev) => ({ ...prev, goals: selectedGoals }));
   };
 
+  const validateForm = () => {
+    const newErrors: { [key: string]: string | null } = {};
+
+    // Validate task name
+    if (!formData.name.trim()) {
+      newErrors.name = "Task name is required.";
+    }
+
+    // Validate due date
+    if (!formData.dueDate.trim()) {
+      newErrors.dueDate = "Due date is required.";
+    }
+
+    // Validate description
+    if (formData.description.trim().length < 10) {
+      newErrors.description = "Description must be at least 10 characters long.";
+    }
+
+    // Validate estimated time
+    if (!formData.estimatedTime.trim()) {
+      newErrors.estimatedTime = "Estimated time is required.";
+    } else if (Number(formData.estimatedTime) <= 0) {
+      newErrors.estimatedTime = "Estimated time must be greater than 0.";
+    }
+
+    // Validate priority
+    if (!formData.priority.trim()) {
+      newErrors.priority = "Priority is required.";
+    }
+
+    // Validate goals
+    if (formData.goals.length === 0) {
+      newErrors.goals = "Please select at least one goal.";
+    }
+
+    // Validate task type
+    if (!formData.taskType.trim()) {
+      newErrors.taskType = "Task type is required.";
+    }
+
+    setErrors(newErrors);
+
+    // Return true if there are no errors
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ id: "", ...formData }); // Pass the new todo to the parent
+    if (validateForm()) {
+      onSubmit({ id: "", ...formData }); // Pass the new todo to the parent
+    }
   };
 
   return (
@@ -76,8 +126,8 @@ export default function TaskForm({
           onChange={handleChange}
           className="focus:outline-none mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="Enter task name"
-          required
         />
+        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
       </div>
 
       {/* Due Date */}
@@ -95,8 +145,8 @@ export default function TaskForm({
           value={formData.dueDate}
           onChange={handleChange}
           className="focus:outline-none mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          required
         />
+        {errors.dueDate && <p className="mt-1 text-sm text-red-600">{errors.dueDate}</p>}
       </div>
 
       {/* Description */}
@@ -116,9 +166,9 @@ export default function TaskForm({
           className="focus:outline-none mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           placeholder="Write a short description of the task"
         />
-        <p className="mt-1 text-sm text-gray-600">
-          Provide additional details about this task.
-        </p>
+        {errors.description && (
+          <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+        )}
       </div>
 
       {/* Estimated Time */}
@@ -139,6 +189,9 @@ export default function TaskForm({
           placeholder="e.g., 2.5"
           min="0"
         />
+        {errors.estimatedTime && (
+          <p className="mt-1 text-sm text-red-600">{errors.estimatedTime}</p>
+        )}
       </div>
 
       {/* Priority */}
@@ -183,9 +236,7 @@ export default function TaskForm({
           <option value="Learning">Learning</option>
           <option value="Hobbies">Hobbies</option>
         </select>
-        <p className="mt-1 text-sm text-gray-600">
-          Hold down "Ctrl" or "Cmd" to select multiple goals.
-        </p>
+        {errors.goals && <p className="mt-1 text-sm text-red-600">{errors.goals}</p>}
       </div>
 
       {/* Task Type */}
@@ -209,6 +260,9 @@ export default function TaskForm({
           <option value="Meeting">Meeting</option>
           <option value="Physical">Physical</option>
         </select>
+        {errors.taskType && (
+          <p className="mt-1 text-sm text-red-600">{errors.taskType}</p>
+        )}
       </div>
 
       {/* Notes */}

@@ -14,7 +14,6 @@ import Home from '@/app/page'
 
 const navigation = [
   { name: 'Today', href: '/today', icon: HomeIcon },
-
   { name: 'Dashboard', href: '/dashboard', icon: CalendarIcon },
   { name: 'Profile', href: '/profile', icon: UsersIcon },
 //   { name: 'Reports', href: '/reports', icon: ChartPieIcon },
@@ -30,7 +29,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 z-50 w-20 overflow-y-auto bg-gray-900 pb-4">
+      <div className="fixed inset-y-0 left-0 z-50 w-20 overflow-y-auto bg-gray-100 pb-4">
         {/* Sidebar header (Logo) */}
 
         {/* Navigation */}
@@ -42,8 +41,8 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
                   href={item.href}
                   className={classNames(
                     pathname === item.href
-                      ? 'bg-gray-800 text-white'
-                      : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                      ? 'bg-gray-200 text-grey-800'
+                      : 'text-gray-400 hover:bg-gray-200 hover:text-grey-800',
                     'group flex gap-x-3 rounded-md p-3 text-sm/6 font-semibold'
                   )}
                 >

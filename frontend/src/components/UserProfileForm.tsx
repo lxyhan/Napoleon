@@ -5,7 +5,7 @@ import { Transition } from '@headlessui/react'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 
-const API_BASE_URL = "http://localhost:3400/profile";
+const API_BASE_URL = "http://localhost:3400/profile/";
 
 const fetchProfile = async () => {
   try {
