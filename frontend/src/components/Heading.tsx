@@ -1,7 +1,11 @@
+import { ClipLoader } from "react-spinners";
+
 export default function Heading({
   onOpenModal,
-  onScheduleAll, // Add the new method prop
+  onScheduleAll,
+  isScheduling
 }: {
+  isScheduling?: boolean;
   onOpenModal: () => void;
   onScheduleAll: () => void;
 }) {
@@ -16,17 +20,27 @@ export default function Heading({
         {/* Schedule all tasks button */}
         <button
           type="button"
-          className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-          onClick={onScheduleAll} // Call the new method when clicked
+          disabled={isScheduling}
+          className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={onScheduleAll}
         >
-          Schedule all tasks
+          <div className="flex items-center space-x-2">
+            {isScheduling ? (
+              <>
+                <ClipLoader size={16} color="#4A90E2" loading={true} />
+                <span>Scheduling...</span>
+              </>
+            ) : (
+              <span>Schedule all tasks</span>
+            )}
+          </div>
         </button>
 
         {/* New Task button */}
         <button
           type="button"
           className="ml-3 inline-flex items-center !rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          onClick={onOpenModal} // Open the modal
+          onClick={onOpenModal}
         >
           New Task
         </button>
